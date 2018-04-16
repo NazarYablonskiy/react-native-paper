@@ -35,6 +35,10 @@ type Props = {
    */
   underlineColor?: string,
   /**
+   * Underline style of the input.
+   */
+  underlineStyle?: any,
+  /**
    * Whether the input can have multiple lines.
    */
   multiline?: boolean,
@@ -212,6 +216,7 @@ class TextInput extends React.Component<Props, State> {
       disabled,
       label,
       underlineColor,
+      underlineStyle,
       style,
       textInputStyle,
       theme,
@@ -270,6 +275,8 @@ class TextInput extends React.Component<Props, State> {
       }),
     };
 
+    const placeholder = label ? this.state.placeholder : rest.placeholder; // display placeholder if no label wasn't passed
+
     return (
       <View style={style}>
         <AnimatedText
@@ -281,7 +288,7 @@ class TextInput extends React.Component<Props, State> {
         <NativeTextInput
           {...rest}
           value={value}
-          placeholder={this.state.placeholder}
+          placeholder={placeholder}
           placeholderTextColor={colors.placeholder}
           editable={!disabled}
           ref={this._setRef}
@@ -304,7 +311,12 @@ class TextInput extends React.Component<Props, State> {
             style={[styles.bottomLine, { backgroundColor: inactiveColor }]}
           />
           <Animated.View
-            style={[styles.bottomLine, styles.focusLine, bottomLineStyle]}
+            style={[
+              styles.bottomLine,
+              styles.focusLine,
+              bottomLineStyle,
+              underlineStyle,
+            ]}
           />
         </View>
       </View>
